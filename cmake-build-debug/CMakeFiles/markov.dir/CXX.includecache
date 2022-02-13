@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+S:/CS262/markov/model.h
+string
+-
+
+S:/CS262/markov/word_model.cpp
+word_model.h
+S:/CS262/markov/word_model.h
+sstream
+-
+iostream
+-
+
+S:/CS262/markov/word_model.h
+model.h
+S:/CS262/markov/model.h
+vector
+-
+map
+-
+

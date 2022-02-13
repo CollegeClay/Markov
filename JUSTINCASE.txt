@@ -1,0 +1,272 @@
+
+.data
+personHeightPrompt:	.string "Enter your height in inches, must be positive integer rounded to the nearest inch (0 to quit):  "
+nameOfItemPrompt:	.string "Enter the name of an item (0 to quit):  "
+itemHeightPrompt:	.string "Enter the height of the shovel in inches, must be positive integer rounded to the nearest inch (0 to quit):  "
+
+
+shovelsResult: .string " shovels."
+heightComparisonResult:	.string "You are as tall as "
+itemNameSpace: 	.space 200
+.text
+
+
+.globl heightComparison
+
+
+
+
+
+
+
+heightComparison:
+	addi sp, sp, -4
+	sw ra, 0(sp)#ra holds the return address
+	
+	la a0, personHeightPrompt #calls the macro personHeightPrompt which prints out a string asking the user to input a positive non zero integer
+	addi a7, x0, 4 #prints the personHeightPrompt as a string
+	ecall
+	
+	addi a7, x0, 5	#Read int
+	ecall
+	
+	add t0, x0, a0 #holds the height of the person
+	
+	ble t0, x0, endHeightComparison #makes sure the height of the person is a positive non zero integer if it is not then quit
+	
+	
+heightLoop:
+	#DELETE
+	#lw a3, 4(sp)
+	#la a0, nameOfItemPrompt #calls the macro nameOfItemPrompt which prints out a string asking the user to input a positive non zero integer
+	#addi a7, x0, 4 #prints the nameOfItemPrompt as a string
+	#ecall
+	#la a1, itemNameSpace
+	#add a0, x0, a1
+	#addi a7, x0, 8	#Read string
+	#ecall
+	#la t1, itemNameSpace
+	#add t1, x0 , a0 #holds the name of the item
+
+	la a0, itemHeightPrompt  #calls the macro personHeightPrompt which prints out a string asking the user to input a positive non zero integer
+	addi a7, x0, 4 #prints the personHeightPrompt as a string
+	ecall
+	
+	addi a7, x0, 5	#Read int
+	ecall
+
+	add t2, x0, a0#saves item height int
+
+	ble t2, x0, endHeightComparison #makes sure the height of the shovel is a positive non zero integer if it is not then quit
+	
+	la a0, heightComparisonResult  #calls the macro heightComparisonResult
+	addi a7, x0, 4 #prints the heightComparisonResult as a string
+	ecall
+	
+	div a0, t0, t2 #divides the height of the person with the height of the item
+	addi a7, x0, 1
+	ecall#prints out the product of personheight/itemheight
+		
+	la a0, shovelsResult  #calls the macro shovelsResult which simply prints the string " shovels.
+	addi a7, x0, 4 #prints the shovelsResult as a string
+	ecall
+	
+	addi a0, x0, '\n'
+	addi a7, x0, 11
+	ecall
+	
+	jal zero, heightLoop
+	#DELETE
+	#add a0, x0, t1 #add start of the itemName address into a0
+#printName:
+#	addi a7, x0, 4
+#	ecall
+#	addi a0, a0, 4
+#	bne a0, x0, printName
+#
+#	jal zero, heightLoop
+endHeightComparison:
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	jalr zero, ra, 0 #return to caller
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+#include <list>
+using namespace std;
+
+//This procedure has the user input their height and then
+// //input a variety of different shovels all with different heights.
+// //The program then tells the user how many shovels tall they are
+void heightComparisonToVariousShovels(){
+    string currentItem;
+    int personHeight;
+    int currentItemHeight = 1;
+
+    cout << "Enter your height in inches, must be positive integer rounded to the nearest inch (0 to quit):  ";
+    cin >> personHeight;
+
+    while(currentItemHeight > 0){
+        cout << "Enter the name of an item :  ";
+        cin >> currentItem;
+
+        cout << "Enter the height of the item, must be positive integer rounded to the nearest inch (0 to quit):  ";
+        cin >> currentItemHeight;
+        if(currentItemHeight <= 0)
+            break;
+
+        cout << "You are as tall as " << double(personHeight)/double(currentItemHeight) << " " <<  currentItem << endl;
+    }
+
+
+}
+
+
+
+
+int main()
+{
+    heightComparisonToItems();
+
+
+
+
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+____________________________________________
+
+//Character roomKeys[] = roomMap.keySet().toArray(new Character[roomMap.keySet().size()]);
+			
+			
+			
+			//Just for testing purposes
+			/*
+			Room Armory  = new Room("Armory");
+			Room Field  = new Room("Field");
+			Room Storage = new Room("Storage");
+			Room Bar = new Room("Bar");
+			Room Dorm = new Room("Dorm");
+			Room Lab = new Room("Lab");
+			
+			Room Conservatory  = new Room("Conservatory");
+			Room Ballroom  = new Room("Ballroom");
+			Room BilliardRoom = new Room("Billiard Room");
+			Room DiningRoom = new Room("Dining Room");
+			Room Walkway = new Room("Walkway");
+			
+			
+			roomMap.put('A', Armory);
+			roomMap.put('F', Field);
+			roomMap.put('S', Storage);
+			roomMap.put('B', Bar);
+			roomMap.put('L', Lab);
+			roomMap.put('D', Dorm);
+			
+			roomMap.put('C', Conservatory);
+			roomMap.put('B', Ballroom);
+			roomMap.put('R', BilliardRoom);
+			roomMap.put('D', DiningRoom);
+			roomMap.put('W', Walkway);
+			*/
+			
+			
+			//Creates each boardCell and gives them their specific identifiers
+			//This is already done in the loadLayoutConfig
+		//	for(int r = 0; r < numRows; r++) {
+			//	for(int c = 0; c < numColumns; c++) {
+			//		BoardCell cell = new BoardCell(r,c);
+			//		if(c < roomKeys.length)
+			//		cell.setInitial(roomKeys[c]);
+			//		board[r][c] = cell;				
+			//	}
+			//}
+			
+			
+			
+			//Goes through the boardTiles again and adds their adjacent tiles to each cell
+			
+			
+			//BoardCell cell1 = new BoardCell(0,0);
+			//BoardCell cell2 = new BoardCell(0,1);
+			//BoardCell cell3 = new BoardCell(1,2);
+
+			
+			//targets.add(cell1);
+			//targets.add(cell2);
+			//targets.add(cell3);
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+//The owner of the zoo is a bit superstitious. He only wants animals in his zoo that have names
+//that start with every third letter of the alphabet. He also only wants one animal for each letter
+//so that he can stay more organized.
+list<string> addAnimalsToSuperstitiousZoo(){
+    list<string> animalList;
+    string currentAnimal;
+
+    list<string> zooAnimal;
+
+    char alphabetLowerCase[] = {'a', 'b','c','d','e','f','g','h','i','j','k','l'
+            ,'m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+    char alphabetUpperCase[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+                                'R','S','T','U','V','W','X','Y','Z'};
+
+    while(currentAnimal != "0"){
+        cout << "Enter an animal, (0 to stop)";
+        cin >> currentAnimal;
+        animalList.push_back(currentAnimal);
+    }
+
+    for(int i = 0; i < sizeof(alphabetLowerCase)/sizeof(alphabetLowerCase[0]); i+3){
+        for(string animal : animalList){
+            if(animal[0] == alphabetLowerCase[i] || animal[0] == alphabetUpperCase[i]){
+             zooAnimal.push_back(animal);
+             break;
+            }
+        }
+    }
+
+    return zooAnimal;
+}
+
+
+
+
+
+	
